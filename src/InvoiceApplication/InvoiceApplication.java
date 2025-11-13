@@ -4,7 +4,15 @@
  * and open the template in the editor.
  */
 package InvoiceApplication;
-
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Color;
+import java.awt.Image;
+import java.awt.print.PageFormat;
+import java.awt.print.Printable;
+import java.awt.print.PrinterException;
+import java.awt.Toolkit;
 import java.awt.Toolkit;
 import java.awt.Image;
 import org.h2.tools.Server;
@@ -20,7 +28,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfPCell;
 //import com.itextpdf.text.Image;
-import com.itextpdf.text.Font;
+//import com.itextpdf.text.Font;
 import com.itextpdf.text.FontFactory;
 import java.io.FileOutputStream;
 import javax.swing.table.DefaultTableModel;
@@ -28,12 +36,12 @@ import javax.swing.table.DefaultTableModel;
 // import java.awt.Font;
 
 // ✅ Correct import
-import com.itextpdf.text.Font;
+//import com.itextpdf.text.Font;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.Font;
+//import com.itextpdf.text.Font;
 import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.Font.FontFamily;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -83,10 +91,14 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfWriter;
-import com.itextpdf.text.Font;
+//import com.itextpdf.text.Font;
 import com.itextpdf.text.FontFactory;
+import java.awt.Color;
 import java.awt.Toolkit;
+import java.awt.image.BufferedImage;
 import java.net.URL;
+import java.text.NumberFormat;
+import java.util.Locale;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -1122,10 +1134,55 @@ private void generateNewInvoiceNo() {
 //        JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
 //    }
 //}
-Image logo = Toolkit.getDefaultToolkit().getImage("InvoiceApplication/Image/vph_logo.png");
+//Image logo = Toolkit.getDefaultToolkit().getImage("/images/vph_logo.png");
     private void txtinvoicenoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtinvoicenoActionPerformed
-     
-       
+
+BufferedImage logo = null;
+try {
+    java.net.URL logoURL = getClass().getResource("/InvoiceApplication/images/vph_logo.png");
+    if (logoURL != null) {
+        logo = ImageIO.read(logoURL); // image load പൂർണ്ണമായി
+        System.out.println("✅ Logo image fully loaded from inside JAR!");
+    } else {
+        File externalLogo = new File("images/vph_logo.png");
+        if (externalLogo.exists()) {
+            logo = ImageIO.read(externalLogo);
+            System.out.println("✅ Logo image fully loaded from external path!");
+        } else {
+            System.out.println("❌ Logo not found anywhere!");
+        }
+    }
+} catch (Exception e) {
+    e.printStackTrace();
+}
+
+
+
+     String invoiceNo = lblInvoiceNo.getText();
+    String date = txtdate.getText();
+    String customerName = cusumername.getText();
+    String customerAddress = customeraddress.getText();
+    String po = txtpo.getText();
+    
+
+    DefaultTableModel model = (DefaultTableModel) jTable3.getModel();
+    
+    double grandTotal = calculateGrandTotal();
+    String amountInWords = convertToWords(grandTotal);
+
+//String amountInWords = convertToWords(grandTotal);
+    PrinterJob job = PrinterJob.getPrinterJob();
+    job.setPrintable(new InvoicePrintable(invoiceNo, date, customerName,
+            customerAddress, po, model, grandTotal,amountInWords));
+
+    // ✅ Multiple Printer Selection dialog
+    if (job.printDialog()) {
+        try {
+            job.print();
+        } catch (PrinterException ex) {
+            ex.printStackTrace();
+        }
+    }  
         
         //generateInvoicePDFf();
         
@@ -1161,67 +1218,67 @@ Image logo = Toolkit.getDefaultToolkit().getImage("InvoiceApplication/Image/vph_
 //    JOptionPane.showMessageDialog(this, "❌ Print failed: " + ex.getMessage());
 //}
 
-        try {
-try {
-    // Create logo image
-//    String logoPath = new File("images", "vph_logo.png").getAbsolutePath();
-//Image logo = Toolkit.getDefaultToolkit().getImage(logoPath);
-   // Image logo = Toolkit.getDefaultToolkit().getImage("/dist/images/vph_logo.png");
-//URL logoUrl = getClass().getResource("/images/vph_logo.png");
-//    if (logoUrl != null) {
-//        logo = Toolkit.getDefaultToolkit().getImage(logoUrl);
-//         System.err.println("⚠️ Logo found inside JAR!");
+//        try {
+//try {
+//    // Create logo image
+////    String logoPath = new File("images", "vph_logo.png").getAbsolutePath();
+////Image logo = Toolkit.getDefaultToolkit().getImage(logoPath);
+//   // Image logo = Toolkit.getDefaultToolkit().getImage("/dist/images/vph_logo.png");
+////URL logoUrl = getClass().getResource("/images/vph_logo.png");
+////    if (logoUrl != null) {
+////        logo = Toolkit.getDefaultToolkit().getImage(logoUrl);
+////         System.err.println("⚠️ Logo found inside JAR!");
+////    } else {
+////        System.err.println("⚠️ Logo not found inside JAR!");
+////    }
+//   String baseDir = System.getProperty("user.dir");  // current working directory (exe or jar location)
+//String logoPath = baseDir + File.separator + "images" + File.separator + "vph_logo.png";
+//Image logo = Toolkit.getDefaultToolkit().getImage(logoPath); 
+//    File f = new File(logoPath);
+//if (!f.exists()) {
+//    System.err.println("⚠️ Logo not found at: " + f.getAbsolutePath());
+//} else {
+//    System.out.println("✅ Logo found: " + f.getAbsolutePath());
+//}
+//
+//    // Get table model
+//    DefaultTableModel model = (DefaultTableModel) jTable3.getModel();
+//
+//    // Create PrinterJob
+//    PrinterJob job = PrinterJob.getPrinterJob();
+//    job.setJobName("Invoice - " + lblInvoiceNo.getText());
+//
+//    // Create printable content
+//    InvoicePrintable printable = new InvoicePrintable(
+//        lblInvoiceNo.getText(),            // Invoice No
+//        txtdate.getText(),                 // Date
+//        cusumername.getText(),             // Customer Name
+//        customeraddress.getText(),         // Address
+//        txtpo.getText(),                   // PO No
+//        model,                             // JTable model
+//        Double.parseDouble(lblgtotal.getText()), // Grand total
+//        "Rupees " + lblwords.getText() ,
+//        logo
+//    );
+//
+//    job.setPrintable(printable);
+//
+//    // 🔽 SHOW PRINTER SELECTION DIALOG 🔽
+//    boolean doPrint = job.printDialog();   // ← this opens printer selection window
+//    if (doPrint) {
+//        job.print();                       // user selected a printer → print it
+//        JOptionPane.showMessageDialog(this, "🖨️ Invoice sent to printer successfully!");
 //    } else {
-//        System.err.println("⚠️ Logo not found inside JAR!");
+//        JOptionPane.showMessageDialog(this, "❌ Print cancelled by user.");
 //    }
-   String baseDir = System.getProperty("user.dir");  // current working directory (exe or jar location)
-String logoPath = baseDir + File.separator + "images" + File.separator + "vph_logo.png";
-Image logo = Toolkit.getDefaultToolkit().getImage(logoPath); 
-    File f = new File(logoPath);
-if (!f.exists()) {
-    System.err.println("⚠️ Logo not found at: " + f.getAbsolutePath());
-} else {
-    System.out.println("✅ Logo found: " + f.getAbsolutePath());
-}
-
-    // Get table model
-    DefaultTableModel model = (DefaultTableModel) jTable3.getModel();
-
-    // Create PrinterJob
-    PrinterJob job = PrinterJob.getPrinterJob();
-    job.setJobName("Invoice - " + lblInvoiceNo.getText());
-
-    // Create printable content
-    InvoicePrintable printable = new InvoicePrintable(
-        lblInvoiceNo.getText(),            // Invoice No
-        txtdate.getText(),                 // Date
-        cusumername.getText(),             // Customer Name
-        customeraddress.getText(),         // Address
-        txtpo.getText(),                   // PO No
-        model,                             // JTable model
-        Double.parseDouble(lblgtotal.getText()), // Grand total
-        "Rupees " + lblwords.getText() ,
-        logo
-    );
-
-    job.setPrintable(printable);
-
-    // 🔽 SHOW PRINTER SELECTION DIALOG 🔽
-    boolean doPrint = job.printDialog();   // ← this opens printer selection window
-    if (doPrint) {
-        job.print();                       // user selected a printer → print it
-        JOptionPane.showMessageDialog(this, "🖨️ Invoice sent to printer successfully!");
-    } else {
-        JOptionPane.showMessageDialog(this, "❌ Print cancelled by user.");
-    }
-
-} catch (Exception e) {
-    e.printStackTrace();
-    JOptionPane.showMessageDialog(this, "❌ Print failed: " + e.getMessage());
-}
-
-        } catch (Exception e) {
-        }
+//
+//} catch (Exception e) {
+//    e.printStackTrace();
+//    JOptionPane.showMessageDialog(this, "❌ Print failed: " + e.getMessage());
+//}
+//
+//        } catch (Exception e) {
+//        }
 
 
 
@@ -1496,57 +1553,111 @@ saveInvoiceToDatabase();
 
     }//GEN-LAST:event_txtinvoicenoActionPerformed
 
-    
+    private double calculateGrandTotal() {
+    DefaultTableModel model = (DefaultTableModel) jTable3.getModel();
+    double total = 0;
+    for (int i = 0; i < model.getRowCount(); i++) {
+        try {
+            total += Double.parseDouble(model.getValueAt(i, 4).toString());
+        } catch (Exception e) {}
+    }
+    return total;
+}
+
 
 
     // lblgtotal → lblwords
-private void calculateGrandTotal() {
-    double total = 0.0;
-    for (int i = 0; i < jTable3.getRowCount(); i++) {
-        total += Double.parseDouble(jTable3.getValueAt(i, 4).toString()); // Total column
-    }
-    lblgtotal.setText(String.format("%.2f", total));
+//private void calculateGrandTotal() {
+//    double total = 0.0;
+//    for (int i = 0; i < jTable3.getRowCount(); i++) {
+//        total += Double.parseDouble(jTable3.getValueAt(i, 4).toString()); // Total column
+//    }
+//    lblgtotal.setText(String.format("%.2f", total));
+//
+//    // 👉 Amount in words സെറ്റ് ചെയ്യുന്നത് ഇവിടെ
+//    double grandTotal = Double.parseDouble(lblgtotal.getText());
+//    String amountInWords = convertNumberToWords((int) grandTotal);
+//    lblwords.setText(amountInWords + " only");
+//}
 
-    // 👉 Amount in words സെറ്റ് ചെയ്യുന്നത് ഇവിടെ
-    double grandTotal = Double.parseDouble(lblgtotal.getText());
-    String amountInWords = convertNumberToWords((int) grandTotal);
-    lblwords.setText(amountInWords + " only");
-}
-
-
- private String convertNumberToWords(int number) {
-    String[] units = { "", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten",
-        "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen",
-        "Seventeen", "Eighteen", "Nineteen" };
-
-    String[] tens = { "", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety" };
-
-    if (number == 0) {
-        return "Zero";
-    }
-
-    if (number < 20) {
-        return units[number];
-    }
-
-    if (number < 100) {
-        return tens[number / 10] + ((number % 10 != 0) ? " " + units[number % 10] : "");
-    }
-
-    if (number < 1000) {
-        return units[number / 100] + " Hundred" + ((number % 100 != 0) ? " and " + convertNumberToWords(number % 100) : "");
-    }
-
-    if (number < 100000) {
-        return convertNumberToWords(number / 1000) + " Thousand" + ((number % 1000 != 0) ? " " + convertNumberToWords(number % 1000) : "");
-    }
-
-    if (number < 10000000) {
-        return convertNumberToWords(number / 100000) + " Lakh" + ((number % 100000 != 0) ? " " + convertNumberToWords(number % 100000) : "");
-    }
-
-    return convertNumberToWords(number / 10000000) + " Crore" + ((number % 10000000 != 0) ? " " + convertNumberToWords(number % 10000000) : "");
-}
+//private String convertToWords(double amount) {
+//    if (amount == 0) return "Zero Rupees Only";
+//
+//    String[] units = { "", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten",
+//                       "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen",
+//                       "Eighteen", "Nineteen" };
+//    String[] tens = { "", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety" };
+//
+//    long rupees = (long) amount;
+//    int paise = (int) Math.round((amount - rupees) * 100);
+//
+//    String words = "";
+//    if (rupees >= 10000000) {
+//        words += convertToWords(rupees / 10000000) + " Crore ";
+//        rupees %= 10000000;
+//    }
+//    if (rupees >= 100000) {
+//        words += convertToWords(rupees / 100000) + " Lakh ";
+//        rupees %= 100000;
+//    }
+//    if (rupees >= 1000) {
+//        words += convertToWords(rupees / 1000) + " Thousand ";
+//        rupees %= 1000;
+//    }
+//    if (rupees >= 100) {
+//        words += convertToWords(rupees / 100) + " Hundred ";
+//        rupees %= 100;
+//    }
+//    if (rupees > 0) {
+//        if (rupees < 20) {
+//            words += units[(int) rupees];
+//        } else {
+//            words += tens[(int) (rupees / 10)] + " " + units[(int) (rupees % 10)];
+//        }
+//    }
+//
+//    words = words.trim();
+//
+//    if (paise > 0) {
+//        words += " and " + convertToWords(paise) + " Paise";
+//    }
+//
+//    return "Rupees " + words + " Only";
+//}
+//
+// private String convertNumberToWords(int number) {
+//    String[] units = { "", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten",
+//        "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen",
+//        "Seventeen", "Eighteen", "Nineteen" };
+//
+//    String[] tens = { "", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety" };
+//
+//    if (number == 0) {
+//        return "Zero";
+//    }
+//
+//    if (number < 20) {
+//        return units[number];
+//    }
+//
+//    if (number < 100) {
+//        return tens[number / 10] + ((number % 10 != 0) ? " " + units[number % 10] : "");
+//    }
+//
+//    if (number < 1000) {
+//        return units[number / 100] + " Hundred" + ((number % 100 != 0) ? " and " + convertNumberToWords(number % 100) : "");
+//    }
+//
+//    if (number < 100000) {
+//        return convertNumberToWords(number / 1000) + " Thousand" + ((number % 1000 != 0) ? " " + convertNumberToWords(number % 1000) : "");
+//    }
+//
+//    if (number < 10000000) {
+//        return convertNumberToWords(number / 100000) + " Lakh" + ((number % 100000 != 0) ? " " + convertNumberToWords(number % 100000) : "");
+//    }
+//
+//    return convertNumberToWords(number / 10000000) + " Crore" + ((number % 10000000 != 0) ? " " + convertNumberToWords(number % 10000000) : "");
+//}
    
     
     private void saveInvoiceToDatabase() {
@@ -1890,7 +2001,11 @@ try {
 
         // 🔹 Clear quantity field
         txtqty.setText("");
-
+       
+    double grandTotal = calculateGrandTotal();
+        String amountInWords = convertToWords(grandTotal);
+        lblwords.setText(amountInWords);
+System.out.println("Duuu"+grandTotal+"amount"+amountInWords);
         System.out.println("✅ Item added to table successfully!");
 
     } catch (Exception e) {
@@ -1933,6 +2048,7 @@ private double getProductRate(String productName) {
 
     // lblgtotal update ചെയ്യുക
     lblgtotal.setText(String.format("%.2f", grandTotal));
+    
 }
 
     
@@ -2471,6 +2587,207 @@ private void saveInvoice() {
                 System.out.println("Column " + j + ": " + cellValue);
             }
         }
+   
+   
+//   private String convertToWords(int number) {
+//    // You can later enhance this as needed
+//    return NumberFormat.getCurrencyInstance(new Locale("en", "IN")).format(number);
+//}
+
+   
+   
+   
+   private class InvoicePrintable implements Printable {
+    private String invoiceNo, date, customerName, customerAddress, po;
+    private DefaultTableModel tableModel;
+    private double grandTotal;
+    private String amountInWords;
+    private Image logo;
+
+    public InvoicePrintable(String invoiceNo, String date, String customerName,
+                            String customerAddress, String po,
+                            DefaultTableModel tableModel, double grandTotal,String amountInWords) {
+        this.invoiceNo = invoiceNo;
+        this.date = date;
+        this.customerName = customerName;
+        this.customerAddress = customerAddress;
+        this.po = po;
+        this.tableModel = tableModel;
+        this.grandTotal = grandTotal;
+        this.amountInWords=amountInWords;
+
+        // ✅ Logo Path (for .exe or JAR build)
+        String logoPath = System.getProperty("user.dir") + File.separator + "images" + File.separator + "vph_logo.png";
+        File file = new File(logoPath);
+        if (file.exists()) {
+            logo = Toolkit.getDefaultToolkit().getImage(logoPath);
+            System.out.println("✅ Logo found: " + logoPath);
+        } else {
+            System.out.println("❌ Logo not found at: " + logoPath);
+        }
+    }
+
+    @Override
+    public int print(Graphics g, PageFormat pf, int pageIndex) throws PrinterException {
+        if (pageIndex > 0) return NO_SUCH_PAGE;
+
+        Graphics2D g2 = (Graphics2D) g;
+       g2.translate(pf.getImageableX(), pf.getImageableY());
+        g2.setPaint(Color.black);
+
+        int pageWidth = (int) pf.getImageableWidth();
+        int pageHeight = (int) pf.getImageableHeight();
+
+        // ✅ Page Border
+        g2.drawRect(20, 20, pageWidth - 40, pageHeight - 40);
+
+        int y = 60;
+if (logo != null) {
+    g2.drawImage(logo, 50, 40, 100, 60, null);  // സ്ഥാനം, വലുപ്പം ആവശ്യത്തിന് മാറ്റാം
+}
+
+        // ✅ Draw Logo
+//        if (logo != null) {
+//            g2.drawImage(logo, 40, 30, 80, 80, null);
+//        }
+
+        // ✅ Firm Header
+        g2.setFont(new Font("Arial", Font.BOLD, 16));
+        g2.drawString("Vishnu Print House", 170, 50);
+        g2.setFont(new Font("Arial", Font.PLAIN, 10));
+        g2.drawString("Opp: Petrol Pump, Koyyamarakkad", 170, 65);
+        g2.drawString("Kanjikode, Palakkad - 678621", 170, 80);
+        g2.drawString("Phone: +91 8547706377, 9809414537", 170, 95);
+        g2.drawString("Email: vishnuprinthouse101@gmail.com", 170, 110);
+        g2.drawString("Website: vishnuprinthouse.unaux.com", 170, 125);
+
+        g2.drawLine(30, 135, pageWidth - 30, 135);
+
+        // ✅ INVOICE Heading
+        g2.setFont(new Font("Arial", Font.BOLD, 14));
+        g2.drawString("INVOICE", pageWidth / 2 - 30, 155);
+
+        g2.setFont(new Font("Arial", Font.PLAIN, 10));
+        g2.drawString("Invoice No: " + invoiceNo, 40, 170);
+        g2.drawString("Date: " + date, pageWidth - 200, 170);
+        g2.drawString("Customer Name: " + customerName, 40, 185);
+        g2.drawString("Customer Address: " + customerAddress, 40, 200);
+        g2.drawString("PO: " + po, 40, 215);
+
+        g2.drawLine(30, 225, pageWidth - 30, 225);
+
+        // ✅ Table Header
+        int tableStartY = 245;
+        g2.setFont(new Font("Arial", Font.BOLD, 10));
+        g2.drawString("Sl No", 40, tableStartY);
+        g2.drawString("Particular", 100, tableStartY);
+        g2.drawString("Qty", 350, tableStartY);
+        g2.drawString("Rate", 420, tableStartY);
+        g2.drawString("Total", 500, tableStartY);
+        g2.drawLine(30, tableStartY + 5, pageWidth - 30, tableStartY + 5);
+
+        // ✅ Table Items
+        int yPos = tableStartY + 20;
+        g2.setFont(new Font("Arial", Font.PLAIN, 10));
+        for (int i = 0; i < tableModel.getRowCount(); i++) {
+            String sl = String.valueOf(tableModel.getValueAt(i, 0));
+            String part = String.valueOf(tableModel.getValueAt(i, 1));
+            String qty = String.valueOf(tableModel.getValueAt(i, 2));
+            String rate = String.valueOf(tableModel.getValueAt(i, 3));
+            String total = String.valueOf(tableModel.getValueAt(i, 4));
+
+            g2.drawString(sl, 40, yPos);
+            g2.drawString(part, 100, yPos);
+            g2.drawString(qty, 350, yPos);
+            g2.drawString(rate, 420, yPos);
+            g2.drawString(total, 500, yPos);
+            yPos += 18;
+        }
+
+        g2.drawLine(30, yPos + 5, pageWidth - 30, yPos + 5);
+
+        // ✅ Grand Total
+        g2.setFont(new Font("Arial", Font.BOLD, 10));
+        g2.drawString("Grand Total: ₹" + grandTotal, pageWidth - 180, yPos + 25);
+
+        // ✅ Amount in Words
+        g2.setFont(new Font("Arial", Font.PLAIN, 10));
+       // String amountInWords = convertToWords(grandTotal);
+       // g2.drawString("Amount in Words: " + amountInWords, 70, y + 30);
+        g2.drawString("Amount in Words: " +amountInWords, 40, yPos + 25);
+
+        //g2.drawString("Amount in Words: " + convertToWords((int) grandTotal), 40, yPos + 25);
+
+        // ✅ Bank Details
+        int footerY = pageHeight - 120;
+        g2.setFont(new Font("Arial", Font.PLAIN, 9));
+        g2.drawString("Bank Name: Indian Overseas Bank", 40, footerY);
+        g2.drawString("Branch: Kanjikode", 40, footerY + 12);
+        g2.drawString("A/c No: 035702000000155", 40, footerY + 24);
+        g2.drawString("IFSC: IOBA0000357", 40, footerY + 36);
+
+        // ✅ Signature Section (with more gap)
+        g2.drawString("For Vishnu Print House", pageWidth - 180, footerY);
+        g2.drawString("Authorised Signature", pageWidth - 170, footerY + 50);
+
+        return PAGE_EXISTS;
+    }
+}
+private String convertToWords(double amount) {
+    if (amount == 0) return "Rupees Zero Only";
+
+    String[] units = { "", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten",
+            "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen",
+            "Seventeen", "Eighteen", "Nineteen" };
+    String[] tens = { "", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety" };
+
+    long rupees = (long) amount;
+    int paise = (int) Math.round((amount - rupees) * 100);
+
+    String words = "";
+    words += convertNumberToWords(rupees);
+
+    if (paise > 0) {
+        words += " and " + convertNumberToWords(paise) + " Paise";
+    }
+
+    return "Rupees " + words.trim() + " Only";
+}
+
+private String convertNumberToWords(long n) {
+    String[] units = { "", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten",
+            "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen",
+            "Seventeen", "Eighteen", "Nineteen" };
+    String[] tens = { "", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety" };
+
+    String result = "";
+
+    if (n >= 10000000) {
+        result += convertNumberToWords(n / 10000000) + " Crore ";
+        n %= 10000000;
+    }
+    if (n >= 100000) {
+        result += convertNumberToWords(n / 100000) + " Lakh ";
+        n %= 100000;
+    }
+    if (n >= 1000) {
+        result += convertNumberToWords(n / 1000) + " Thousand ";
+        n %= 1000;
+    }
+    if (n >= 100) {
+        result += convertNumberToWords(n / 100) + " Hundred ";
+        n %= 100;
+    }
+    if (n > 0) {
+        if (n < 20) {
+            result += units[(int) n];
+        } else {
+            result += tens[(int) (n / 10)] + " " + units[(int) (n % 10)];
+        }
+    }
+    return result.trim();
+}
+
     }
     
 
