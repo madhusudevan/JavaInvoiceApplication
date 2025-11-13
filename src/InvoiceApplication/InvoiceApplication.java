@@ -19,6 +19,7 @@ import org.h2.tools.Server;
 import java.sql.*;
 import javax.swing.table.DefaultTableModel;
 // no need to import InvoiceApplication.DBConnection if it's in the same package
+//SERVER OPPEN "jdbc:h2:file:~/invoiceapp;AUTO_SERVER=TRUE"
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -109,6 +110,8 @@ import javax.swing.JMenuItem;
  * @author user
  */
 public class InvoiceApplication extends javax.swing.JFrame {
+    
+    
 
 // Declare globally
 //private JComboBox<ProductItem> comboProducts;
@@ -123,7 +126,12 @@ java.sql.Date sqlDate = null;
     initComponents();
     //startH2Server();
     connectH2Database();
-    
+        cmbPaymentType.removeAllItems();
+    cmbPaymentType.addItem("Cash");
+    cmbPaymentType.addItem("Credit");
+    cmbPaymentType.addItem("UPI");
+
+    cmbPaymentType.setSelectedItem("Cash"); // default option
 generateInvoiceNumber(); // 🔹 Auto-generate invoice number
     createTablesIfNotExist(); // ✅ Tables ഉണ്ടോ എന്ന് പരിശോധിക്കും// ✅ H2 database connect
     loadProductsToTable(); // Load at startup
@@ -380,6 +388,7 @@ private static class ProductItem {
         jLabel8 = new javax.swing.JLabel();
         lblgtotal = new javax.swing.JLabel();
         button1 = new java.awt.Button();
+        cmbPaymentType = new javax.swing.JComboBox<>();
         jPanel3 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -498,7 +507,7 @@ private static class ProductItem {
                 txtadddataintableActionPerformed(evt);
             }
         });
-        jPanel2.add(txtadddataintable, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 210, 100, 30));
+        jPanel2.add(txtadddataintable, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 250, 100, 30));
 
         remove.setBackground(new java.awt.Color(255, 0, 0));
         remove.setText("Remove Item");
@@ -507,7 +516,7 @@ private static class ProductItem {
                 removeActionPerformed(evt);
             }
         });
-        jPanel2.add(remove, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 210, 100, 30));
+        jPanel2.add(remove, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 250, 100, 30));
 
         cmbProduct.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -539,7 +548,7 @@ private static class ProductItem {
         jPanel2.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 50, 310, 150));
 
         lblwords.setBackground(new java.awt.Color(153, 153, 255));
-        jPanel2.add(lblwords, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 250, 560, 20));
+        jPanel2.add(lblwords, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 290, 560, 20));
 
         jLabel8.setText("Grand Total");
         jPanel2.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 220, -1, 20));
@@ -555,7 +564,15 @@ private static class ProductItem {
         });
         jPanel2.add(button1, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 20, -1, -1));
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 220, 610, 280));
+        cmbPaymentType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbPaymentType.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbPaymentTypeActionPerformed(evt);
+            }
+        });
+        jPanel2.add(cmbPaymentType, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 210, 120, 30));
+
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 220, 610, 320));
 
         jPanel3.setBackground(new java.awt.Color(255, 204, 102));
 
@@ -1189,364 +1206,13 @@ try {
         
         
         //new
-//       try {
-//    String invoiceNo = lblInvoiceNo.getText();
-//    String date = txtdate.getText();
-//    String customerName = cusumername.getText();
-//    String customerAddress = customeraddress.getText();
-//    String poNo = txtpo.getText();
-//    DefaultTableModel model = (DefaultTableModel) jTable3.getModel();
-//
-//    double grandTotal = Double.parseDouble(lblgtotal.getText());
-//    String amountWords = "Rupees " + lblwords.getText() + " Only";
-//
-//    Image logo = Toolkit.getDefaultToolkit().getImage("InvoiceApplication/Image/vph_logo.png");
-//
-//
-//    PrinterJob job = PrinterJob.getPrinterJob();
-//    job.setPrintable(new InvoicePrintable(invoiceNo, date, customerName, customerAddress,
-//                                          poNo, model, grandTotal, amountWords, logo));
-//
-//    // 🔹 Show printer selection dialog
-//    if (job.printDialog()) {
-//        job.print();
-//        JOptionPane.showMessageDialog(this, "✅ Invoice printed successfully!");
-//    }
-//
-//} catch (Exception ex) {
-//    ex.printStackTrace();
-//    JOptionPane.showMessageDialog(this, "❌ Print failed: " + ex.getMessage());
-//}
 
-//        try {
-//try {
-//    // Create logo image
-////    String logoPath = new File("images", "vph_logo.png").getAbsolutePath();
-////Image logo = Toolkit.getDefaultToolkit().getImage(logoPath);
-//   // Image logo = Toolkit.getDefaultToolkit().getImage("/dist/images/vph_logo.png");
-////URL logoUrl = getClass().getResource("/images/vph_logo.png");
-////    if (logoUrl != null) {
-////        logo = Toolkit.getDefaultToolkit().getImage(logoUrl);
-////         System.err.println("⚠️ Logo found inside JAR!");
-////    } else {
-////        System.err.println("⚠️ Logo not found inside JAR!");
-////    }
-//   String baseDir = System.getProperty("user.dir");  // current working directory (exe or jar location)
-//String logoPath = baseDir + File.separator + "images" + File.separator + "vph_logo.png";
-//Image logo = Toolkit.getDefaultToolkit().getImage(logoPath); 
-//    File f = new File(logoPath);
-//if (!f.exists()) {
-//    System.err.println("⚠️ Logo not found at: " + f.getAbsolutePath());
-//} else {
-//    System.out.println("✅ Logo found: " + f.getAbsolutePath());
-//}
-//
-//    // Get table model
-//    DefaultTableModel model = (DefaultTableModel) jTable3.getModel();
-//
-//    // Create PrinterJob
-//    PrinterJob job = PrinterJob.getPrinterJob();
-//    job.setJobName("Invoice - " + lblInvoiceNo.getText());
-//
-//    // Create printable content
-//    InvoicePrintable printable = new InvoicePrintable(
-//        lblInvoiceNo.getText(),            // Invoice No
-//        txtdate.getText(),                 // Date
-//        cusumername.getText(),             // Customer Name
-//        customeraddress.getText(),         // Address
-//        txtpo.getText(),                   // PO No
-//        model,                             // JTable model
-//        Double.parseDouble(lblgtotal.getText()), // Grand total
-//        "Rupees " + lblwords.getText() ,
-//        logo
-//    );
-//
-//    job.setPrintable(printable);
-//
-//    // 🔽 SHOW PRINTER SELECTION DIALOG 🔽
-//    boolean doPrint = job.printDialog();   // ← this opens printer selection window
-//    if (doPrint) {
-//        job.print();                       // user selected a printer → print it
-//        JOptionPane.showMessageDialog(this, "🖨️ Invoice sent to printer successfully!");
-//    } else {
-//        JOptionPane.showMessageDialog(this, "❌ Print cancelled by user.");
-//    }
-//
-//} catch (Exception e) {
-//    e.printStackTrace();
-//    JOptionPane.showMessageDialog(this, "❌ Print failed: " + e.getMessage());
-//}
-//
-//        } catch (Exception e) {
-//        }
-
-
-
- // ഇനി പ്രിന്റ് ചെയ്യുക 👇
-//        try {
-//            PrinterJob job = PrinterJob.getPrinterJob();
-//    job.setPrintable(new InvoicePrintable());
-//    if (job.printDialog()) {
-//        job.print();
-//    } 
-//        } catch (Exception e) {
-//        }
    
 
 saveInvoiceToDatabase();
 
 
-//        try {
-//        String invoiceNo = lblInvoiceNo.getText();
-//        String customer = cusumername.getText();
-//        String address = customeraddress.getText();
-//        double grandTotal = Double.parseDouble(lblgtotal.getText());
-//        String amountWords = lblwords.getText();
-//        
-//
-//        Image logo = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/images/vph_logo.png"));
-//
-//        PrinterJob job = PrinterJob.getPrinterJob();
-//        job.setPrintable(new InvoicePrintable(invoiceNo, customer, address, grandTotal, amountWords, logo));
-//
-//        if (job.printDialog()) {
-//            job.print();
-//            JOptionPane.showMessageDialog(this, "Invoice printed successfully!");
-//        }
-//    } catch (Exception e) {
-//        e.printStackTrace();
-//    }
-//try {
-//   // String logoPath = "InvoiceApplication/images/vpgh_logo.png";
-//    //Image logo = Toolkit.getDefaultToolkit().getImage(logoPath);
-//
-//    // Customer details
-//    String customer = cusumername.getText();
-//    String address = customeraddress.getText();
-//
-//    // ✅ Extract only the numeric part of the invoice number
-//    String invStr = lblInvoiceNo.getText().trim(); // Example: "INV0052"
-//    String numPart = invStr.replaceAll("[^0-9]", ""); // gives "0052"
-//    int invoiceNo = Integer.parseInt(numPart);
-//
-//    // Get total safely
-//    double total = 0.0;
-//    try {
-//        total = Double.parseDouble(lblgtotal.getText()); // Use total label, not invoice no!
-//    } catch (Exception ex) {
-//        JOptionPane.showMessageDialog(null, "Invalid Total Amount!");
-//        return;
-//    }
-//
-//    String amountWords = "Rupees " + total + " Only";
-//
-//    // ✅ Convert invoiceNo back to string for printable class
-//    String inv = String.format("INV%04d", invoiceNo);
-//
-//    //PrinterJob job = PrinterJob.getPrinterJob();
-//   // job.setPrintable(new InvoicePrintable(inv, customer, address, total, amountWords, logo));
-//
-//    job.print();
-//
-//    JOptionPane.showMessageDialog(this, "🖨️ Invoice printed successfully to A4 paper!");
-//} catch (Exception e) {
-//    e.printStackTrace();
-//    JOptionPane.showMessageDialog(this, "❌ Print failed: " + e.getMessage());
-//}
-////String logoPath = "InvoiceApplication/images/vpgh_logo.png";
-//   // Image logo = Toolkit.getDefaultToolkit().getImage(logoPath);
-//
-//    // Customer details
-//    String customer = cusumername.getText();
-//    String address = customeraddress.getText();
-//
-//    // ✅ Extract only the numeric part of the invoice number
-//    String invStr = lblInvoiceNo.getText().trim(); // Example: "INV0052"
-//    String numPart = invStr.replaceAll("[^0-9]", ""); // gives "0052"
-//    int invoiceNo = Integer.parseInt(numPart);
-//   //PrinterJob job = PrinterJob.getPrinterJob();
-//   
-//   //double grandTotal = Double.parseDouble(txtGrandTotal.getText());
-//String amountWords = lblwords.getText();
-//Image logo = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/images/vph_logo.png"));
-//
-//PrinterJob job = PrinterJob.getPrinterJob();
-//job.setPrintable(new InvoicePrintable(invoiceNo, customer, address, grandTotal, amountWords, logo));
-//
-//if (job.printDialog()) {
-//    job.print();
-//}
-//
-//job.setPrintable(new InvoicePrintable(invoiceNo, customer, address, grandTotal, amountWords, logo));
-//
-//if (job.printDialog()) {
-//            try {
-//                job.print(); // prints to selected printer
-//            } catch (PrinterException ex) {
-//                Logger.getLogger(InvoiceApplication.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//    JOptionPane.showMessageDialog(this, "🖨️ Invoice printed successfully!");
-//}
-     
-        
-//         saveInvoiceToDatabase();
-//         try {
-//             String logoPath = "InvoiceApplication/images/vpgh_logo.png";
-//Image logo = Toolkit.getDefaultToolkit().getImage(logoPath);
-//
-//        // Example data from your form
-//        //String invoiceNo = lblInvoiceNo.getText();
-//        String customer = cusumername.getText();
-//        String address = customeraddress.getText();
-//        
-//        try {
-//    String invStr = txtinvoiceno.getText();
-//    String numPart = invStr.replaceAll("[^0-9]", "");
-//    int invoiceNo = Integer.parseInt(lblInvoiceNo.getText());
-//    // continue your logic here
-//} catch (NumberFormatException ex) {
-//    JOptionPane.showMessageDialog(null, "Invalid Invoice Number Format!");
-//}
-//
-//        double total = Double.parseDouble(lblInvoiceNo.getText());
-//        String amountWords = "Rupees " + total + " Only";
-//
-//        //Image logo = Toolkit.getDefaultToolkit().getImage("InvoiceApplication/images/vph_logo.png");
-////String invoiceNo = lblInvoiceNo.getText();
-//int invoiceNo = Integer.parseInt(lblInvoiceNo.getText());
-//        PrinterJob job = PrinterJob.getPrinterJob();
-//        String inv = String.valueOf(invoiceNo);
-//
-//        job.setPrintable(new InvoicePrintable(inv, customer, address, total, amountWords, logo));
-//
-//        // Auto print without showing dialog
-//        job.print();
-//
-//        JOptionPane.showMessageDialog(this, "🖨️ Invoice printed successfully to A4 paper!");
-//    } catch (Exception e) {
-//        e.printStackTrace();
-//        JOptionPane.showMessageDialog(this, "❌ Print failed: " + e.getMessage());
-//    }
-        
-//         try {
-//            // ഫോൾഡർ ഉണ്ടാക്കുന്നു
-//            File folder = new File("C:/Invoices");
-//            if (!folder.exists()) {
-//                folder.mkdirs();
-//            }
-//
-//            // ഡോക്യുമെന്റ് സൃഷ്ടിക്കുന്നു
-//            Document document = new Document(PageSize.A4, 36, 36, 36, 36);
-//            PdfWriter.getInstance(document, new FileOutputStream("C:/Invoices/invoice.pdf"));
-//            document.open();
-//
-//            // ഉള്ളടക്കം ചേർക്കുന്നു
-//            document.add(new Paragraph("Invoice Example", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18)));
-//            document.add(new Paragraph("ഇത് ഒരു ഉദാഹരണ ഇൻവോയ്സ് ആണ്."));
-//
-//            document.close(); // അടയ്ക്കുക
-//            System.out.println("✅ PDF വിജയകരമായി സേവ് ചെയ്തു: C:/Invoices/invoice.pdf");
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-        
-//        try {
-//         //loo();
-//         
-//         
-//         
-//         
-//         
-//         
-//         
-//         
-//         
-//         
-//         
-//        // String invoiceNo = generateInvoiceNumber();
-//         //lblInvoiceNo.setText(invoiceNo);
-//         
-//         int invoiceNo = Integer.parseInt(lblInvoiceNo.getText().trim());
-//         String date = txtdate.getText().trim();
-//         String customer = cusumername.getText().trim();
-//         String address = customeraddress.getText().trim();
-//         String po = txtpo.getText().trim();
-//         
-//         double total = Double.parseDouble(lblgtotal.getText().trim());
-//         String amountInWords = convertNumberToWords((int) total) + " Only";
-//         System.out.println(amountInWords+"amount in words");
-//         DefaultTableModel model = (DefaultTableModel) jTable3.getModel();
-//         System.out.println(amountInWords+"amount in words");
-//         String companyName = "Vishnu Print House";
-//         String companyAddress = "Opp:Petrolpump, Koyyamarakkad, Kanjikode Palakkad";
-//         String email = "vishnuprinthouse101@gmail.com";
-//         String website = "www.vishnuprinthouse101.com";
-//         String INVOICE = "INVOICE";
-//         String logoPath = "\\InvoiceApplication\\images\\vph_logo.png"; // update your logo path
-//         //String logoPath = "G:\\InvoiceApplication\\images\\vph_logo.png"; // update your logo path
-//         //Image logoPath = ImageIO.read(new File("G:\\InvoiceApplication\\images\\vph_logo.png"));
-//         
-//         
-//         System.out.println(amountInWords+"amount in words");
-////         InvoicePrintable.printInvoice(
-////                 invoiceNo1, date, customer, address, po, model, total,
-////                 companyName, companyAddress, email, website, logoPath, amountInWords, INVOICE
-////         );
-//         System.out.println(amountInWords+"amount in words last");
-//         //printInvoice();
-//         //saveInvoiceToDatabase();
-//         //calculateGrandTotal();
-//         // lblwords.setText();
-//         
-//         
-//         
-//         
-/////h2
-//Connection con = DatabaseConnection.getConnection();
-//   
-//// Invoice Fields
-//// നിങ്ങളുടെ ഫീൽഡ് പേര്
-//// നിങ്ങളുടെ PO നമ്പർ field പേര്
-//
-//// Customer ComboBox നിന്ന് ID എടുക്കുക
-//int selectedCustomerId = 0;
-////String selectedCustomerName = (String) customerComboBox.getSelectedItem();
-//
-//PreparedStatement ps2 = con.prepareStatement("SELECT id FROM customers WHERE name = ?");
-//ps2.setString(1, customer);
-//ResultSet rs = ps2.executeQuery();
-//
-//
-//
-//if (rs.next()) {
-//    selectedCustomerId = rs.getInt("id");
-//}
-//
-//// JTable ലെ grand total കണക്കാക്കുക
-//double grandTotal = 0.0;
-//for (int i = 0; i < jTable3.getRowCount(); i++) {
-//    //double total = Double.parseDouble(itemsTable.getValueAt(i, 4).toString());
-//    grandTotal += total;
-//}
-//
-//// Invoice insert ചെയ്യുക
-//PreparedStatement ps = con.prepareStatement(
-//        "INSERT INTO invoices(invoice_no, date, customer_id, po_no, grand_total) VALUES(?,?,?,?,?)");
-//ps.setString(1,  lblInvoiceNo.getText().trim());
-//ps.setString(2, date);
-//ps.setInt(3, selectedCustomerId);
-//ps.setString(4, po);
-//ps.setDouble(5, grandTotal);
-//
-//ps.executeUpdate();
-//System.out.println("✅ Invoice saved successfully!");
-//
-//
-////h2 end
-//     } catch (SQLException ex) {
-//         Logger.getLogger(InvoiceApplication.class.getName()).log(Level.SEVERE, null, ex);
-//     }
-// 
+ 
  
  
  
@@ -1566,99 +1232,7 @@ saveInvoiceToDatabase();
 
 
 
-    // lblgtotal → lblwords
-//private void calculateGrandTotal() {
-//    double total = 0.0;
-//    for (int i = 0; i < jTable3.getRowCount(); i++) {
-//        total += Double.parseDouble(jTable3.getValueAt(i, 4).toString()); // Total column
-//    }
-//    lblgtotal.setText(String.format("%.2f", total));
-//
-//    // 👉 Amount in words സെറ്റ് ചെയ്യുന്നത് ഇവിടെ
-//    double grandTotal = Double.parseDouble(lblgtotal.getText());
-//    String amountInWords = convertNumberToWords((int) grandTotal);
-//    lblwords.setText(amountInWords + " only");
-//}
 
-//private String convertToWords(double amount) {
-//    if (amount == 0) return "Zero Rupees Only";
-//
-//    String[] units = { "", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten",
-//                       "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen",
-//                       "Eighteen", "Nineteen" };
-//    String[] tens = { "", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety" };
-//
-//    long rupees = (long) amount;
-//    int paise = (int) Math.round((amount - rupees) * 100);
-//
-//    String words = "";
-//    if (rupees >= 10000000) {
-//        words += convertToWords(rupees / 10000000) + " Crore ";
-//        rupees %= 10000000;
-//    }
-//    if (rupees >= 100000) {
-//        words += convertToWords(rupees / 100000) + " Lakh ";
-//        rupees %= 100000;
-//    }
-//    if (rupees >= 1000) {
-//        words += convertToWords(rupees / 1000) + " Thousand ";
-//        rupees %= 1000;
-//    }
-//    if (rupees >= 100) {
-//        words += convertToWords(rupees / 100) + " Hundred ";
-//        rupees %= 100;
-//    }
-//    if (rupees > 0) {
-//        if (rupees < 20) {
-//            words += units[(int) rupees];
-//        } else {
-//            words += tens[(int) (rupees / 10)] + " " + units[(int) (rupees % 10)];
-//        }
-//    }
-//
-//    words = words.trim();
-//
-//    if (paise > 0) {
-//        words += " and " + convertToWords(paise) + " Paise";
-//    }
-//
-//    return "Rupees " + words + " Only";
-//}
-//
-// private String convertNumberToWords(int number) {
-//    String[] units = { "", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten",
-//        "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen",
-//        "Seventeen", "Eighteen", "Nineteen" };
-//
-//    String[] tens = { "", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety" };
-//
-//    if (number == 0) {
-//        return "Zero";
-//    }
-//
-//    if (number < 20) {
-//        return units[number];
-//    }
-//
-//    if (number < 100) {
-//        return tens[number / 10] + ((number % 10 != 0) ? " " + units[number % 10] : "");
-//    }
-//
-//    if (number < 1000) {
-//        return units[number / 100] + " Hundred" + ((number % 100 != 0) ? " and " + convertNumberToWords(number % 100) : "");
-//    }
-//
-//    if (number < 100000) {
-//        return convertNumberToWords(number / 1000) + " Thousand" + ((number % 1000 != 0) ? " " + convertNumberToWords(number % 1000) : "");
-//    }
-//
-//    if (number < 10000000) {
-//        return convertNumberToWords(number / 100000) + " Lakh" + ((number % 100000 != 0) ? " " + convertNumberToWords(number % 100000) : "");
-//    }
-//
-//    return convertNumberToWords(number / 10000000) + " Crore" + ((number % 10000000 != 0) ? " " + convertNumberToWords(number % 10000000) : "");
-//}
-   
     
     private void saveInvoiceToDatabase() {
     Connection con = null;
@@ -1709,8 +1283,9 @@ String formattedDate = dbFormat.format(inputFormat.parse(dateString));
         }
 
         // ✅ 2️⃣ Insert into invoices
+        String paymentType = cmbPaymentType.getSelectedItem().toString();
         psInvoice = con.prepareStatement(
-            "INSERT INTO invoices (invoice_no, date, customer_id, po_no, grand_total) VALUES (?, ?, ?, ?, ?)",
+            "INSERT INTO invoices (invoice_no, date, customer_id, po_no, grand_total,PAYMENT_TYPE) VALUES (?, ?, ?, ?, ?, ?)",
             Statement.RETURN_GENERATED_KEYS
         );
         psInvoice.setString(1, invoiceNo);
@@ -1719,6 +1294,7 @@ String formattedDate = dbFormat.format(inputFormat.parse(dateString));
         psInvoice.setInt(3, customerId);
         psInvoice.setString(4, po);
         psInvoice.setDouble(5, grandTotal);
+        psInvoice.setString(6, cmbPaymentType.getSelectedItem().toString()); // ഉദാ: ComboBox
         psInvoice.executeUpdate();
 
         ResultSet rsInvoice = psInvoice.getGeneratedKeys();
@@ -1971,7 +1547,8 @@ private void printInvoice() {
     private void txtadddataintableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtadddataintableActionPerformed
         //addProductToTable();
         //DefaultTableModel model = (DefaultTableModel) jTable3.getModel();
-          
+    //startH2Server();
+      
 
 try {
         // 🔹 Get input values
@@ -2061,78 +1638,7 @@ private double getProductRate(String productName) {
     
     
     
-//    private void calculateGrandTotal() {
-//    double grandTotal = 0.0;
-//
-//    // Stop any ongoing edit first
-//    if (jTable3.isEditing()) {
-//        jTable3.getCellEditor().stopCellEditing();
-//    }
-//
-//    DefaultTableModel model = (DefaultTableModel) jTable3.getModel();
-//
-//    int rowCount = model.getRowCount();
-//    if (rowCount == 0) {
-//        lblgtotal.setText("0.00");
-//        lblwords.setText("Zero Rupees Only");
-//        return;
-//    }
-//
-//    for (int i = 0; i < rowCount; i++) {
-//        Object totalValue = model.getValueAt(i, 4); // total column = 4
-//        if (totalValue != null && !totalValue.toString().trim().isEmpty()) {
-//            try {
-//                grandTotal += Double.parseDouble(totalValue.toString());
-//            } catch (NumberFormatException e) {
-//                // ignore invalid numbers
-//            }
-//        }
-//    }
-//
-//    lblgtotal.setText(String.format("%.2f", grandTotal));
-//    lblwords.setText(convertToWords(grandTotal));
-//}
 
-
-
-    
-//    private void addProductToTable() {
-//    DefaultTableModel model = (DefaultTableModel) jTable3.getModel();
-//
-//    // Get input values
-//    String customerName = cusumername.getText().trim(); // if you have this field
-//    String productText = (String) cmbProduct.getSelectedItem();
-//    String qtyText = txtqty.getText().trim();
-//
-//    if (productText == null || productText.equals("-- Select Product --") || qtyText.isEmpty()) {
-//        JOptionPane.showMessageDialog(this, "Please select a product and enter quantity!");
-//        return;
-//    }
-//
-//    double qty = Double.parseDouble(qtyText);
-//
-//    // Extract product name and rate from combo text (e.g., "Pen (10.5)")
-//    String productName = productText.substring(0, productText.lastIndexOf("(")).trim();
-//    String rateStr = productText.substring(productText.lastIndexOf("(") + 1, productText.lastIndexOf(")"));
-//    double rate = Double.parseDouble(rateStr);
-//
-//    double total = qty * rate;
-//    /////////////////////
-//   
-////////////////////////////////
-//// Display on label
-////lblwords.setText(amountInWords);
-//
-//
-//    // Serial number = current number of rows + 1
-//    int slNo = model.getRowCount() + 1;
-//
-//    // Add new row to the table
-//    model.addRow(new Object[]{slNo, productName, qty, rate, total});
-//
-//    // Optional: Clear qty field
-//    txtqty.setText("");
-//}
 
     private void cmbProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbProductActionPerformed
 
@@ -2208,6 +1714,10 @@ frame.setVisible(true);
 
     
     }//GEN-LAST:event_button1ActionPerformed
+
+    private void cmbPaymentTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbPaymentTypeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbPaymentTypeActionPerformed
 
  
 private void removeSelectedRow() {
@@ -2307,24 +1817,7 @@ private void resetSerialNumbers(DefaultTableModel model) {
                 new InvoiceApplication().setVisible(true);
             }
         });
-//        try {
-//            // ✅ H2 Console Start (Web + TCP mode)
-//            Server.createWebServer(
-//                "-web", "-webAllowOthers",
-//                "-tcp", "-tcpAllowOthers"
-//            ).start();
-//
-//            System.out.println("✅ H2 Console Started at: http://localhost:8082");
-//
-//            // 🔹 Your existing startup code
-//            javax.swing.SwingUtilities.invokeLater(() -> {
-//                new InvoiceApplication().setVisible(true);
-//            });
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    } 
+
         
     }
     //H2 PRODUCT ADD
@@ -2532,6 +2025,7 @@ private void saveInvoice() {
     private javax.swing.JButton btndelete;
     private javax.swing.JButton btnedit;
     private java.awt.Button button1;
+    private javax.swing.JComboBox<String> cmbPaymentType;
     private javax.swing.JComboBox<String> cmbProduct;
     private javax.swing.JTextField customeraddress;
     private javax.swing.JTextField cusumername;
