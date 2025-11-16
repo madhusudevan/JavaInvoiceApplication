@@ -124,14 +124,40 @@ java.sql.Date sqlDate = null;
      */
  public InvoiceApplication() {
     initComponents();
+        // ✅ Payment Type ComboBox values
+//    cmbPaymentType.removeAllItems();
+//    cmbPaymentType.addItem("Select Payment Type");
+//    cmbPaymentType.addItem("Cash");
+//    cmbPaymentType.addItem("UPI");
+//    cmbPaymentType.addItem("Credit");
+//
+//    // ✅ Initially hide credit-related fields
+//    lblDueDate.setVisible(false);
+//    txtDueDate.setVisible(false);
+//    lblBalance.setVisible(false);
+//    txtBalance.setVisible(false);
+    
+     cmbPaymentType.removeAllItems();
+    cmbPaymentType.addItem("Select Payment Type");
+    cmbPaymentType.addItem("Cash");
+    cmbPaymentType.addItem("UPI");
+    cmbPaymentType.addItem("Credit");
+
+    // Hide credit-related fields initially
+    dueDateChooser.setVisible(false);
+   // lblBalance.setVisible(false);
+    txtBalance.setVisible(false);
+    lblbalance.setVisible(false);
+    lblduedate.setVisible(false);
+    //cmbPaymentType.removeAllItems();
     //startH2Server();
     connectH2Database();
-        cmbPaymentType.removeAllItems();
-    cmbPaymentType.addItem("Cash");
-    cmbPaymentType.addItem("Credit");
-    cmbPaymentType.addItem("UPI");
-
-    cmbPaymentType.setSelectedItem("Cash"); // default option
+//        cmbPaymentType.removeAllItems();
+//    cmbPaymentType.addItem("Cash");
+//    cmbPaymentType.addItem("Credit");
+//    cmbPaymentType.addItem("UPI");
+//
+//    cmbPaymentType.setSelectedItem("Cash"); // default option
 generateInvoiceNumber(); // 🔹 Auto-generate invoice number
     createTablesIfNotExist(); // ✅ Tables ഉണ്ടോ എന്ന് പരിശോധിക്കും// ✅ H2 database connect
     loadProductsToTable(); // Load at startup
@@ -259,37 +285,6 @@ private void startH2Server() {
         }
     }
 
-    // ---------------------------------------------------------
-    // 🔹 മറ്റു functions (addProduct, loadProductsToTable, etc.)
-
-// private void loadProductsToComboBox() {
-//    try {
-//        Connection con = DBConnection.getConnection();
-//        String sql = "SELECT id, name, rate FROM products";
-//        PreparedStatement ps = con.prepareStatement(sql);
-//        ResultSet rs = ps.executeQuery();
-//
-//        cmbProduct.removeAllItems();
-//        cmbProduct.addItem("-- Select Product --");
-//
-//        while (rs.next()) {
-//            int id = rs.getInt("id");
-//            String name = rs.getString("name");
-//            double rate = rs.getDouble("rate");
-//            cmbProduct.addItem(name + " (" + rate + ")");
-//        }
-//
-//        rs.close();
-//        ps.close();
-//        con.close();
-//    } catch (Exception e) {
-//        e.printStackTrace();
-//        JOptionPane.showMessageDialog(this, "Error loading products: " + e.getMessage());
-//    }
-//}
-
-//private JComboBox<ProductItem> comboProducts;
- // Inside constructor or initComponents
 
 
 
@@ -389,6 +384,10 @@ private static class ProductItem {
         lblgtotal = new javax.swing.JLabel();
         button1 = new java.awt.Button();
         cmbPaymentType = new javax.swing.JComboBox<>();
+        txtBalance = new javax.swing.JTextField();
+        lblduedate = new javax.swing.JLabel();
+        lblbalance = new javax.swing.JLabel();
+        dueDateChooser = new com.toedter.calendar.JDateChooser();
         jPanel3 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -468,7 +467,7 @@ private static class ProductItem {
         });
         jPanel1.add(btndelete, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 100, 70, -1));
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, 610, 130));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, 640, 130));
 
         jPanel2.setBackground(new java.awt.Color(153, 153, 255));
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Invoice"));
@@ -490,10 +489,27 @@ private static class ProductItem {
 
         jLabel3.setText("Customer Name");
         jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 100, -1));
+
+        cusumername.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cusumernameActionPerformed(evt);
+            }
+        });
+        cusumername.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                cusumernameKeyReleased(evt);
+            }
+        });
         jPanel2.add(cusumername, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 40, 160, 30));
 
         jLabel4.setText("Address");
         jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 70, -1));
+
+        customeraddress.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                customeraddressKeyReleased(evt);
+            }
+        });
         jPanel2.add(customeraddress, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 80, 160, 30));
 
         jLabel5.setText("Date");
@@ -507,7 +523,7 @@ private static class ProductItem {
                 txtadddataintableActionPerformed(evt);
             }
         });
-        jPanel2.add(txtadddataintable, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 250, 100, 30));
+        jPanel2.add(txtadddataintable, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 250, 100, 30));
 
         remove.setBackground(new java.awt.Color(255, 0, 0));
         remove.setText("Remove Item");
@@ -516,7 +532,7 @@ private static class ProductItem {
                 removeActionPerformed(evt);
             }
         });
-        jPanel2.add(remove, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 250, 100, 30));
+        jPanel2.add(remove, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 250, 100, 30));
 
         cmbProduct.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -528,6 +544,12 @@ private static class ProductItem {
         jLabel6.setText("Qty");
         jPanel2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 170, -1, -1));
         jPanel2.add(txtqty, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 160, 60, 30));
+
+        txtpo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtpoKeyReleased(evt);
+            }
+        });
         jPanel2.add(txtpo, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 120, 160, 30));
 
         jLabel7.setText("PO No.");
@@ -545,16 +567,16 @@ private static class ProductItem {
         ));
         jScrollPane3.setViewportView(jTable3);
 
-        jPanel2.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 50, 310, 150));
+        jPanel2.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 50, 340, 150));
 
         lblwords.setBackground(new java.awt.Color(153, 153, 255));
-        jPanel2.add(lblwords, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 290, 560, 20));
+        jPanel2.add(lblwords, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 330, 560, 20));
 
         jLabel8.setText("Grand Total");
-        jPanel2.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 220, -1, 20));
+        jPanel2.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 210, -1, 20));
 
         lblgtotal.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jPanel2.add(lblgtotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 220, 100, 20));
+        jPanel2.add(lblgtotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 210, 100, 20));
 
         button1.setLabel("Report");
         button1.addActionListener(new java.awt.event.ActionListener() {
@@ -564,15 +586,22 @@ private static class ProductItem {
         });
         jPanel2.add(button1, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 20, -1, -1));
 
-        cmbPaymentType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cmbPaymentType.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmbPaymentTypeActionPerformed(evt);
             }
         });
-        jPanel2.add(cmbPaymentType, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 210, 120, 30));
+        jPanel2.add(cmbPaymentType, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 200, 120, 30));
+        jPanel2.add(txtBalance, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 250, 120, 30));
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 220, 610, 320));
+        lblduedate.setText("Due Date");
+        jPanel2.add(lblduedate, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 260, 50, 20));
+
+        lblbalance.setText("Balance");
+        jPanel2.add(lblbalance, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 260, 50, -1));
+        jPanel2.add(dueDateChooser, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 250, 110, 30));
+
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 220, 640, 370));
 
         jPanel3.setBackground(new java.awt.Color(255, 204, 102));
 
@@ -580,7 +609,7 @@ private static class ProductItem {
         jLabel9.setText("Vishnu Print House");
         jPanel3.add(jLabel9);
 
-        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 610, 40));
+        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 640, 40));
         setJMenuBar(jMenuBar1);
 
         pack();
@@ -608,42 +637,7 @@ private static class ProductItem {
     private void btnaddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnaddActionPerformed
 addProduct();
 
-//        String name = txtname.getText();
-//        String price1 = txtprice.getText(); // TODO add your handling code here:
-//        
-//         // Validation (optional)
-//    if (name.isEmpty()  || price1.isEmpty()) {
-//        JOptionPane.showMessageDialog(this, "Please fill all fields");
-//        return;
-//    }
-//
-//    try {
-////        
-//         double price = Double.parseDouble(price1);
-//        // SQL INSERT
-//        Connection conn = DBConnection.getConnection();
-//        String sql = "INSERT INTO products (name, rate) VALUES (?, ?)";
-//        PreparedStatement ps = conn.prepareStatement(sql);
-//        ps.setString(1, name);
-//        ps.setDouble(2, price);
-//        
-//
-//        ps.executeUpdate();
-//        JOptionPane.showMessageDialog(this, "Product added successfully!");
-//
-//        // Optional: refresh table data
-//        loadTableData();
-//
-//        // clear fields
-//        txtname.setText("");
-//        txtprice.setText("");
-//        
-//
-//        conn.close();
-//    } catch (Exception e) {
-//        e.printStackTrace();
-//        JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
-//    }
+
     }//GEN-LAST:event_btnaddActionPerformed
 // 🔹 3️⃣ Add Product Function
 private void addProduct() {
@@ -731,47 +725,7 @@ try {
         e.printStackTrace();
         JOptionPane.showMessageDialog(this, "❌ Error: " + e.getMessage());
     }
-    //editSelectedItem();
-    
-    
-//  DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-//int selectedRow = jTable1.getSelectedRow();
-//
-//if (selectedRow == -1) {
-//    JOptionPane.showMessageDialog(this, "Please select a row to update");
-//    return;
-//}
 
-//int id = (int) model.getValueAt(selectedRow, 0);
-//String name = txtname.getText().trim();
-//String price = txtprice.getText().trim();
-
-//if (name.isEmpty() || price.isEmpty()) {
-//    JOptionPane.showMessageDialog(this, "Please fill all fields");
-//    return;
-//}
-
-//try {
-//    double price1 = Double.parseDouble(price);
-//    Connection con = DBConnection.getConnection();
-//
-//    String sql = "UPDATE products SET name=?, rate=? WHERE id=?";
-//    PreparedStatement ps = con.prepareStatement(sql);
-//    ps.setString(1, name);
-//    ps.setDouble(2, price1);
-//    ps.setInt(3, id);
-//
-//    ps.executeUpdate();
-//    JOptionPane.showMessageDialog(this, "Record updated successfully!");
-//    loadTableData(); // refresh the JTable
-//txtname.setText("");
-//        txtprice.setText("");
-//        btnadd.setEnabled(true);
-//    con.close();
-//} catch (Exception e) {
-//    e.printStackTrace();
-//    JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
-//}
 
     }//GEN-LAST:event_btneditActionPerformed
 private void updateProductInDatabase(int id, String name, double rate) {
@@ -895,45 +849,7 @@ try {
         JOptionPane.showMessageDialog(this, "❌ Error deleting product: " + e.getMessage());
     }
 
-//        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-//    int selectedRow = jTable1.getSelectedRow();
-//
-//    if (selectedRow == -1) {
-//        JOptionPane.showMessageDialog(this, "Please select a row to delete");
-//        return;
-//    }
-//
-//    // Get the ID from the selected row (first column)
-//    int id = (int) model.getValueAt(selectedRow, 0);
-//
-//    // Confirm before deleting
-//    int confirm = JOptionPane.showConfirmDialog(this,
-//            "Are you sure you want to delete this record?",
-//            "Confirm Delete", JOptionPane.YES_NO_OPTION);
-//
-//    if (confirm != JOptionPane.YES_OPTION) {
-//        return; // cancel delete
-//    }
-//
-//    try {
-//        Connection con = DBConnection.getConnection();
-//        String sql = "DELETE FROM products WHERE id=?";
-//        PreparedStatement ps = con.prepareStatement(sql);
-//        ps.setInt(1, id);
-//
-//        int rowsAffected = ps.executeUpdate();
-//        if (rowsAffected > 0) {
-//            JOptionPane.showMessageDialog(this, "Record deleted successfully!");
-//            loadTableData(); // refresh table
-//        } else {
-//            JOptionPane.showMessageDialog(this, "No record found with ID: " + id);
-//        }
-//
-//        con.close();
-//    } catch (Exception e) {
-//        e.printStackTrace();
-//        JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
-//    }
+
     }//GEN-LAST:event_btndeleteActionPerformed
 private void deleteProductFromDatabase(String name) {
     try (Connection con = DriverManager.getConnection(
@@ -1212,7 +1128,8 @@ try {
 saveInvoiceToDatabase();
 
 
- 
+ txtBalance.setText("");
+ lblwords.setText("");
  
  
  
@@ -1285,7 +1202,7 @@ String formattedDate = dbFormat.format(inputFormat.parse(dateString));
         // ✅ 2️⃣ Insert into invoices
         String paymentType = cmbPaymentType.getSelectedItem().toString();
         psInvoice = con.prepareStatement(
-            "INSERT INTO invoices (invoice_no, date, customer_id, po_no, grand_total,PAYMENT_TYPE) VALUES (?, ?, ?, ?, ?, ?)",
+            "INSERT INTO invoices (invoice_no, date, customer_id, po_no, grand_total,PAYMENT_TYPE,due_date, balance) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
             Statement.RETURN_GENERATED_KEYS
         );
         psInvoice.setString(1, invoiceNo);
@@ -1294,7 +1211,21 @@ String formattedDate = dbFormat.format(inputFormat.parse(dateString));
         psInvoice.setInt(3, customerId);
         psInvoice.setString(4, po);
         psInvoice.setDouble(5, grandTotal);
-        psInvoice.setString(6, cmbPaymentType.getSelectedItem().toString()); // ഉദാ: ComboBox
+//        String paymentType = cmbPaymentType.getSelectedItem().toString();
+psInvoice.setString(6, cmbPaymentType.getSelectedItem().toString());
+
+if (paymentType.equals("Credit")) {
+    java.util.Date selectedDate = dueDateChooser.getDate();
+    if (selectedDate != null) {
+        psInvoice.setDate(7, new java.sql.Date(selectedDate.getTime()));
+    } else {
+        psInvoice.setNull(7, java.sql.Types.DATE);
+    }
+    psInvoice.setDouble(8, Double.parseDouble(txtBalance.getText()));
+} else {
+    psInvoice.setNull(7, java.sql.Types.DATE);
+    psInvoice.setNull(8, java.sql.Types.DOUBLE);
+}
         psInvoice.executeUpdate();
 
         ResultSet rsInvoice = psInvoice.getGeneratedKeys();
@@ -1382,35 +1313,6 @@ private void generateInvoiceNumber() {
 }
 
 
-//amount inwords
-    
-//    private static String  convertToWords(double amount) {
-//    if (amount == 0) return "Zero Rupees Only";
-//
-//    long rupees = (long) amount;
-//    int paise = (int) Math.round((amount - rupees) * 100);
-//
-//    String rupeeWords = convertNumberToWords(rupees);
-//    String paiseWords = paise > 0 ? " and " + convertNumberToWords(paise) + " Paise" : "";
-//
-//    return "Rupees " + rupeeWords + paiseWords + " Only";
-//}
-//
-//private static String  convertNumberToWords(long number) {
-//    String[] units = {"", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten",
-//            "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"};
-//    String[] tens = {"", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"};
-//
-//    if (number < 20) return units[(int) number];
-//    if (number < 100) return tens[(int) (number / 10)] + (number % 10 != 0 ? " " + units[(int) (number % 10)] : "");
-//    if (number < 1000)
-//        return units[(int) (number / 100)] + " Hundred " + convertNumberToWords(number % 100);
-//    if (number < 100000)
-//        return convertNumberToWords(number / 1000) + " Thousand " + convertNumberToWords(number % 1000);
-//    if (number < 10000000)
-//        return convertNumberToWords(number / 100000) + " Lakh " + convertNumberToWords(number % 100000);
-//    return convertNumberToWords(number / 10000000) + " Crore " + convertNumberToWords(number % 10000000);
-//}
 
     
     
@@ -1666,8 +1568,8 @@ private void loadProductsToComboBox() {
 }
 
     private void removeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeActionPerformed
-//        removeSelectedRow();
-//        lblgtotal.setText("00");
+        removeSelectedRow();
+        lblgtotal.setText("00");
 int selectedRow = jTable3.getSelectedRow();
 
     if (selectedRow == -1) {
@@ -1716,8 +1618,62 @@ frame.setVisible(true);
     }//GEN-LAST:event_button1ActionPerformed
 
     private void cmbPaymentTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbPaymentTypeActionPerformed
-        // TODO add your handling code here:
+//     if (cmbPaymentType.getSelectedItem() == null) return;
+//    String paymentType = cmbPaymentType.getSelectedItem().toString();
+//
+//    // Prevent null error
+//    if (lblDueDate == null || txtDueDate == null || lblBalance == null || txtBalance == null)
+//        return;
+//
+//    if (paymentType.equals("Credit")) {
+//        // ✅ Show Credit fields
+//        lblDueDate.setVisible(true);
+//        txtDueDate.setVisible(true);
+//        lblBalance.setVisible(true);
+//        txtBalance.setVisible(true);
+//    } else {
+//        // ✅ Hide Credit fields
+//        lblDueDate.setVisible(false);
+//        txtDueDate.setVisible(false);
+//        lblBalance.setVisible(false);
+//        txtBalance.setVisible(false);
+//    }
+if (cmbPaymentType.getSelectedItem() == null) return;
+    String paymentType = cmbPaymentType.getSelectedItem().toString();
+
+    if (paymentType.equals("Credit")) {
+        dueDateChooser.setVisible(true);
+        lblbalance.setVisible(true);
+        txtBalance.setVisible(true);
+        lblduedate.setVisible(true);
+       // txtDueDate.setVisible(true);
+    } else {
+        dueDateChooser.setVisible(false);
+        lblbalance.setVisible(false);
+        //lblBalance.setVisible(false);
+        txtBalance.setVisible(false);
+       // txtDueDate.setVisible(false);
+    }
     }//GEN-LAST:event_cmbPaymentTypeActionPerformed
+
+    private void cusumernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cusumernameActionPerformed
+       
+    }//GEN-LAST:event_cusumernameActionPerformed
+
+    private void cusumernameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cusumernameKeyReleased
+      String text = cusumername.getText();
+        cusumername.setText(text.toUpperCase());
+    }//GEN-LAST:event_cusumernameKeyReleased
+
+    private void customeraddressKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_customeraddressKeyReleased
+       String text = customeraddress.getText();
+        customeraddress.setText(text.toUpperCase());
+    }//GEN-LAST:event_customeraddressKeyReleased
+
+    private void txtpoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtpoKeyReleased
+       String text = txtpo.getText();
+        txtpo.setText(text.toUpperCase());
+    }//GEN-LAST:event_txtpoKeyReleased
 
  
 private void removeSelectedRow() {
@@ -1978,37 +1934,7 @@ private void saveInvoice() {
 }
 
     
-    // invoice number generate function
-//private String generateInvoiceNumber() {
-//    String prefix = "";
-//    int nextNumber = 1;
-//
-//    try (Connection con = DBConnection.getConnection()) {
-//        String sql = "SELECT invoice_no FROM invoices ORDER BY id DESC LIMIT 1";
-//        PreparedStatement ps = con.prepareStatement(sql);
-//        ResultSet rs = ps.executeQuery();
-//
-//        if (rs.next()) {
-//            String lastInvoice = rs.getString("invoice_no"); // e.g., "INV-1001"
-//
-//            if (lastInvoice != null && lastInvoice.contains("-")) {
-//                String[] parts = lastInvoice.split("-");
-//                int lastNumber = Integer.parseInt(parts[1].trim());
-//                nextNumber = lastNumber + 1;
-//            } else {
-//                // Handle old or invalid format like "INV1001"
-//                String numberPart = lastInvoice.replaceAll("\\D+", "");
-//                if (!numberPart.isEmpty()) {
-//                    nextNumber = Integer.parseInt(numberPart) + 1;
-//                }
-//            }
-//        }
-//    } catch (Exception e) {
-//        e.printStackTrace();
-//    }
-//
-//    return prefix + nextNumber;
-//}
+   
 
 
     // ✅ ഈ ക്ലാസ് main ക്ലാസ്സിന് അകത്ത് വേണമെങ്കിൽ ഇങ്ങനെ വേണം
@@ -2029,6 +1955,7 @@ private void saveInvoice() {
     private javax.swing.JComboBox<String> cmbProduct;
     private javax.swing.JTextField customeraddress;
     private javax.swing.JTextField cusumername;
+    private com.toedter.calendar.JDateChooser dueDateChooser;
     private javax.swing.JLabel invoiceno;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
@@ -2052,9 +1979,12 @@ private void saveInvoice() {
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable3;
     private javax.swing.JLabel lblInvoiceNo;
+    private javax.swing.JLabel lblbalance;
+    private javax.swing.JLabel lblduedate;
     private javax.swing.JLabel lblgtotal;
     private javax.swing.JButton lblwords;
     private javax.swing.JButton remove;
+    private javax.swing.JTextField txtBalance;
     private javax.swing.JButton txtadddataintable;
     private javax.swing.JLabel txtdate;
     private javax.swing.JButton txtinvoiceno;
@@ -2073,14 +2003,7 @@ private void saveInvoice() {
     
     
     
-    
-   private void loo(){
-        DefaultTableModel model1 = (DefaultTableModel) jTable3.getModel();
-         for (int j = 0; j < model1.getColumnCount(); j++) {
-                Object cellValue = model1.getValueAt(0, j);
-                System.out.println("Column " + j + ": " + cellValue);
-            }
-        }
+  
    
    
 //   private String convertToWords(int number) {
@@ -2219,6 +2142,7 @@ if (logo != null) {
         g2.drawString("Branch: Kanjikode", 40, footerY + 12);
         g2.drawString("A/c No: 035702000000155", 40, footerY + 24);
         g2.drawString("IFSC: IOBA0000357", 40, footerY + 36);
+
 
         // ✅ Signature Section (with more gap)
         g2.drawString("For Vishnu Print House", pageWidth - 180, footerY);

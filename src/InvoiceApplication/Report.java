@@ -35,36 +35,61 @@ public class Report extends javax.swing.JPanel {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        button1 = new java.awt.Button();
-        btnSalesReport = new javax.swing.JButton();
+        txtinvoiceno = new javax.swing.JTextField();
+        txtdate = new javax.swing.JTextField();
+        cusumername = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        txtCustomerName = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTablesalr = new javax.swing.JTable();
-        txtCustomerName = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
+        btnSalesReport = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        txtCustomerSearch = new javax.swing.JTextField();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tblInvoices = new javax.swing.JTable();
+        button1 = new java.awt.Button();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblItems = new javax.swing.JTable();
+        customeraddress = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        txtpo = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        txtGrandTotal = new javax.swing.JTextField();
+        txtPaymentType = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        txtname = new javax.swing.JTextField();
+        txtgtotal = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
 
-        button1.setLabel("Back");
-        button1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                button1ActionPerformed(evt);
-            }
-        });
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtdate, javax.swing.GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
+                    .addComponent(cusumername, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(txtinvoiceno))
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(40, 40, 40)
+                .addComponent(txtdate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(txtinvoiceno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(cusumername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
-        btnSalesReport.setText("Sale Report");
-        btnSalesReport.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSalesReportActionPerformed(evt);
-            }
-        });
-
-        jTablesalr.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Invoice No", "Date", "Customer Name", "Grand Total"
-            }
-        ));
-        jScrollPane1.setViewportView(jTablesalr);
+        jLabel1.setText("Search");
 
         txtCustomerName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -80,40 +105,88 @@ public class Report extends javax.swing.JPanel {
             }
         });
 
-        jLabel1.setText("Search");
+        jTablesalr.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnSalesReport, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(30, 30, 30)
-                        .addComponent(txtCustomerName, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(64, 64, 64)
-                        .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1)))
-                .addContainerGap())
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnSalesReport, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(button1, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
-                    .addComponent(txtCustomerName))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 21, Short.MAX_VALUE))
-        );
+            },
+            new String [] {
+                "Invoice No", "Date", "Customer Name", "Grand Total"
+            }
+        ));
+        jScrollPane1.setViewportView(jTablesalr);
+
+        btnSalesReport.setText("Sale Report");
+        btnSalesReport.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalesReportActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setText("Pending");
+
+        txtCustomerSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCustomerSearchActionPerformed(evt);
+            }
+        });
+        txtCustomerSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtCustomerSearchKeyReleased(evt);
+            }
+        });
+
+        tblInvoices.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Invoice ID", "Invoice No", "Date", "Grand Total", "Balance", "Due Date", "Customer Name"
+            }
+        ));
+        tblInvoices.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblInvoicesMouseClicked(evt);
+            }
+        });
+        jScrollPane3.setViewportView(tblInvoices);
+
+        button1.setLabel("Back");
+        button1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button1ActionPerformed(evt);
+            }
+        });
+
+        tblItems.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "PRODUCT_ID", "PRODUCT NAME", "QTY", "RATE", "TOTAL"
+            }
+        ));
+        tblItems.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblItemsMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(tblItems);
+
+        jLabel6.setText("Address");
+
+        jLabel7.setText("PO");
+
+        jLabel8.setText("Pymt");
+
+        jLabel9.setText("G Total");
+
+        jLabel4.setText("Name");
+
+        jLabel3.setText("Invo No");
+
+        jLabel5.setText("Date");
+
+        jLabel10.setText("Grand Total");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -121,14 +194,119 @@ public class Report extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnSalesReport, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(28, 28, 28)
+                                .addComponent(txtCustomerName, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(171, 171, 171)
+                                .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 416, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(txtCustomerSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel10)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel6)
+                                    .addComponent(jLabel7)
+                                    .addComponent(jLabel9)
+                                    .addComponent(jLabel8))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(10, 10, 10)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(txtpo, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(customeraddress, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txtGrandTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txtPaymentType, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txtname, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txtgtotal, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGap(1925, 1925, 1925))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 624, Short.MAX_VALUE)
+                            .addComponent(jScrollPane3))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(37, 37, 37)
+                                .addComponent(btnSalesReport)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(270, 270, 270))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(76, 76, 76)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txtCustomerName))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addContainerGap(63, Short.MAX_VALUE)
+                                        .addComponent(jLabel5)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jLabel3)
+                                        .addGap(5, 5, 5)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(23, 23, 23)
+                                        .addComponent(jLabel4)))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(txtCustomerSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(customeraddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtpo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel7))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtGrandTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel9))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtPaymentType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel8))
+                        .addGap(18, 18, 18)
+                        .addComponent(txtname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtgtotal, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel10))
+                        .addGap(18, 18, 18)))
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -180,10 +358,323 @@ loadSalesReport();   // TODO add your handling code here:
     fetchBillsByCustomerName(name);
     }//GEN-LAST:event_txtCustomerNameKeyReleased
 
+    private void txtCustomerSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCustomerSearchActionPerformed
+//       loadInvoicesByCustomer();
+    }//GEN-LAST:event_txtCustomerSearchActionPerformed
+
+    private void txtCustomerSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCustomerSearchKeyReleased
+       loadInvoicesByCustomer();
+    }//GEN-LAST:event_txtCustomerSearchKeyReleased
+
+    private void tblItemsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblItemsMouseClicked
+        int row = tblItems.getSelectedRow();
+    if (row < 0) return;
+//
+//int row = tblItems.getSelectedRow();
+
+//int row = tblItems.getSelectedRow();
+
+int invoiceId = ((Number) tblItems.getValueAt(row, 0)).intValue();
+int id = ((Number) tblItems.getValueAt(row, 1)).intValue();
+int productId = ((Number) tblItems.getValueAt(row, 2)).intValue();
+double qty = ((Number) tblItems.getValueAt(row, 3)).doubleValue();
+double rate = ((Number) tblItems.getValueAt(row, 4)).doubleValue();
+double total = ((Number) tblItems.getValueAt(row, 5)).doubleValue();
+
+
+//
+    //int invoiceId = (int) tblItems.getValueAt(row, 3); // hidden column
+
+    loadInvoiceItems(invoiceId);
+    loadInvoiceDetails(invoiceId);
+    }//GEN-LAST:event_tblItemsMouseClicked
+
+    private void tblInvoicesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblInvoicesMouseClicked
+    //WORKING CODE START
+    //int row = tblInvoices.getSelectedRow();
+    //if (row < 0) return;
+
+    // Correct type conversion (ID is Integer)
+    //int invoiceId = (int) tblInvoices.getValueAt(row, 3);
+
+    //loadInvoiceItems(invoiceId);
+    //loadInvoiceDetails(invoiceId);
+    //WORKING CODE END
+    int row = tblInvoices.getSelectedRow();
+if (row < 0) return;
+
+int invoiceId = (int) tblInvoices.getValueAt(row, 0);
+loadInvoiceDetails(invoiceId);
+//loadInvoiceItems(invoiceId);
+loadInvoiceItems( invoiceId);
+
+    }//GEN-LAST:event_tblInvoicesMouseClicked
+
+   private void loadInvoiceDetails(int invoiceId) {
+    try {
+        //Connection conn = DriverManager.getConnection("jdbc:h2:~/invoiceapp", "sa", "");
+Connection conn = DriverManager.getConnection(
+    "jdbc:h2:file:~/invoiceapp;AUTO_SERVER=TRUE",
+    "sa",  // ഉപയോഗിക്കുന്ന യൂസർ
+    ""      // പാസ്സ്‌വേർഡ്
+);
+        PreparedStatement ps = conn.prepareStatement(
+            "SELECT i.invoice_no, i.date, c.name AS customer_name, c.address AS customer_address, " +
+            "i.po_no, i.grand_total, i.payment_type " +
+            "FROM invoices i " +
+            "JOIN customers c ON i.customer_id = c.id " +
+            "WHERE i.id = ?"
+        );
+
+        ps.setInt(1, invoiceId);
+        ResultSet rs = ps.executeQuery();
+
+        if (rs.next()) {
+            txtinvoiceno.setText(rs.getString("invoice_no"));
+            txtdate.setText(rs.getString("date"));
+            cusumername.setText(rs.getString("customer_name"));
+            customeraddress.setText(rs.getString("customer_address"));
+            txtpo.setText(rs.getString("po_no"));
+            txtGrandTotal.setText(String.valueOf(rs.getDouble("grand_total")));
+            txtPaymentType.setText(rs.getString("payment_type"));
+            txtname.setText(rs.getString("name"));
+            
+        }
+
+        conn.close();
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+
+//  void loadInvoiceItems(int invoiceId) {
+//      System.out.println("Clicked Invoice ID = " + invoiceId);
+//      
+//    DefaultTableModel model = (DefaultTableModel) tblItems.getModel();
+//    model.setRowCount(0);  // clear old rows
+//
+//    try (Connection con = DriverManager.getConnection("jdbc:h2:file:~/invoiceapp;AUTO_SERVER=TRUE",
+//    "sa",  // ഉപയോഗിക്കുന്ന യൂസർ
+//    ""       );
+//         PreparedStatement ps = con.prepareStatement(
+//             "SELECT id, product_id, qty, rate, total FROM invoice_items WHERE invoice_id=?"
+//         )) {
+//
+//        ps.setInt(1, invoiceId);
+//        ResultSet rs = ps.executeQuery();
+//
+//        while (rs.next()) {
+//            Object[] row = {
+//                rs.getInt("id"),
+//                rs.getInt("product_id"),
+//                rs.getInt("qty"),
+//                rs.getDouble("rate"),
+//                rs.getDouble("total")
+//            };
+//            model.addRow(row);
+//        }
+//
+//    } catch (Exception e) {
+//        e.printStackTrace();
+//    }
+//}
+   
+//   void loadInvoiceItems(int invoiceId) {
+//    try {
+//        Connection con = DriverManager.getConnection("jdbc:h2:file:~/invoiceapp;AUTO_SERVER=TRUE", "sa", "");
+//
+//        String sql = "SELECT ii.id, ii.product_id, p.name AS product_name, "
+//                   + "ii.qty, ii.rate, ii.total "
+//                   + "FROM invoice_items ii "
+//                   + "JOIN products p ON ii.product_id = p.id "
+//                   + "WHERE ii.invoice_id = ?";
+//
+//        PreparedStatement ps = con.prepareStatement(sql);
+//        ps.setInt(1, invoiceId);
+//
+//        ResultSet rs = ps.executeQuery();
+//
+//        DefaultTableModel model = new DefaultTableModel(
+//            new String[]{"ID", "Product ID", "Product Name", "Qty", "Rate", "Total"}, 0
+//        );
+//
+//        while (rs.next()) {
+//            model.addRow(new Object[]{
+//                rs.getInt("id"),
+//                rs.getInt("product_id"),
+//                rs.getString("product_name"),  // from p.name
+//                rs.getDouble("qty"),
+//                rs.getDouble("rate"),
+//                rs.getDouble("total")
+//            });
+//        }
+//
+//        tblItems.setModel(model);
+//
+//        rs.close();
+//        ps.close();
+//        con.close();
+//
+//    } catch (Exception ex) {
+//        ex.printStackTrace();
+//    }
+//}
+
+void loadInvoiceItems(int invoiceId) {
+    try {
+        Connection con = DriverManager.getConnection("jdbc:h2:file:~/invoiceapp;AUTO_SERVER=TRUE", "sa", "");
+
+        String sql = "SELECT ii.id, ii.product_id, p.name AS product_name, "
+                   + "ii.qty, ii.rate, ii.total "
+                   + "FROM invoice_items ii "
+                   + "JOIN products p ON ii.product_id = p.id "
+                   + "WHERE ii.invoice_id = ?";
+
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setInt(1, invoiceId);
+
+        ResultSet rs = ps.executeQuery();
+
+        DefaultTableModel model = new DefaultTableModel(
+            new String[]{"ID", "Product ID", "Product Name", "Qty", "Rate", "Total"}, 0
+        );
+
+        while (rs.next()) {
+            model.addRow(new Object[]{
+                rs.getInt("id"),
+                rs.getInt("product_id"),
+                rs.getString("product_name"),
+                rs.getDouble("qty"),
+                rs.getDouble("rate"),
+                rs.getDouble("total")
+            });
+        }
+
+        tblItems.setModel(model);
+
+        // Calculate grand total
+        calculateGrandTotal();
+
+        rs.close();
+        ps.close();
+        con.close();
+
+    } catch (Exception ex) {
+        ex.printStackTrace();
+    }
+}
+void calculateGrandTotal() {
+    double grandTotal = 0;
+
+    DefaultTableModel model = (DefaultTableModel) tblItems.getModel();
+
+    for (int i = 0; i < model.getRowCount(); i++) {
+        grandTotal += Double.parseDouble(model.getValueAt(i, 5).toString());
+    }
+
+    txtgtotal.setText(String.valueOf(grandTotal));
+}
+
+
+private void loadInvoicesByCustomer() {
+    String name = txtCustomerSearch.getText().trim();
+
+    if (name.isEmpty()) return;
+
+    try {
+        Connection conn = DriverManager.getConnection(
+            "jdbc:h2:file:~/invoiceapp;AUTO_SERVER=TRUE",
+            "sa",
+            ""
+        );
+
+        String sql =
+            "SELECT i.id, i.invoice_no, i.date, i.grand_total, i.balance, i.due_date, c.name " +
+            "FROM invoices i " +
+            "JOIN customers c ON i.customer_id = c.id " +
+            "WHERE c.name LIKE ?";
+
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1, "%" + name + "%");
+        ResultSet rs = ps.executeQuery();
+
+        DefaultTableModel model = (DefaultTableModel) tblInvoices.getModel();
+        model.setRowCount(0);
+
+        while (rs.next()) {
+            model.addRow(new Object[]{
+                rs.getInt("id"),                // Hidden
+                rs.getString("invoice_no"),
+                rs.getString("date"),
+                rs.getDouble("grand_total"),
+                rs.getDouble("balance"),
+                rs.getString("due_date"),
+                rs.getString("name")
+            });
+        }
+
+        // 👉 HIDE COLUMN 0 (INVOICE ID)
+        tblInvoices.getColumnModel().getColumn(0).setMinWidth(0);
+        tblInvoices.getColumnModel().getColumn(0).setMaxWidth(0);
+        tblInvoices.getColumnModel().getColumn(0).setWidth(0);
+
+        conn.close();
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+
+
+//WORKING CODE START
+//private void loadInvoicesByCustomer() {
+//    String name = txtCustomerSearch.getText().trim();
+//    if (name.isEmpty()) return;
+//
+//    try {
+//        Connection conn = DriverManager.getConnection(
+//            "jdbc:h2:file:~/invoiceapp;AUTO_SERVER=TRUE", "sa", ""
+//        );
+//
+//        // Correct SQL order
+//        String sql = "SELECT i.invoice_no, i.date, i.grand_total, i.id " +
+//                     "FROM invoices i " +
+//                     "JOIN customers c ON i.customer_id = c.id " +
+//                     "WHERE c.name LIKE ?";
+//
+//        PreparedStatement ps = conn.prepareStatement(sql);
+//        ps.setString(1, "%" + name + "%");
+//        ResultSet rs = ps.executeQuery();
+//
+//        DefaultTableModel model = (DefaultTableModel) tblInvoices.getModel();
+//        model.setRowCount(0);
+//
+//        while (rs.next()) {
+//            model.addRow(new Object[]{
+//                rs.getString("invoice_no"),   // column 0
+//                rs.getString("date"),         // column 1
+//                rs.getDouble("grand_total"),  // column 2
+//                rs.getInt("id")               // column 3 (hidden column)
+//            });
+//        }
+//
+//    } catch (Exception e) {
+//        e.printStackTrace();
+//    }
+//}
+//WORKING CODE END
+
+
+
    private void fetchBillsByCustomerName(String name) {
     try {
-        Connection conn = DriverManager.getConnection("jdbc:h2:~/invoiceapp", "sa", "");
-
+       // Connection conn = DriverManager.getConnection("jdbc:h2:~/invoiceapp", "sa", "");
+Connection conn = DriverManager.getConnection(
+    "jdbc:h2:file:~/invoiceapp;AUTO_SERVER=TRUE",
+    "sa",  // ഉപയോഗിക്കുന്ന യൂസർ
+    ""      // പാസ്സ്‌വേർഡ്
+);
         // 🔽 ഇതാണ് പഴയ (തെറ്റായ) query
         // String sql = "SELECT invoice_no, date, customer_name, grand_total FROM invoices WHERE customer_name LIKE ? ORDER BY date DESC";
 
@@ -226,8 +717,12 @@ loadSalesReport();   // TODO add your handling code here:
 private void loadSalesReport() {
     try {
         // ✅ Database connection
-        Connection conn = DriverManager.getConnection("jdbc:h2:~/invoiceapp", "sa", "");
-
+       // Connection conn = DriverManager.getConnection("jdbc:h2:~/invoiceapp", "sa", "");
+Connection conn = DriverManager.getConnection(
+    "jdbc:h2:file:~/invoiceapp;AUTO_SERVER=TRUE",
+    "sa",  // ഉപയോഗിക്കുന്ന യൂസർ
+    ""      // പാസ്സ്‌വേർഡ്
+);
         // ✅ SQL query (Java 8 compatible)
         String sql = "SELECT i.invoice_no, i.date, c.name AS customer_name, i.grand_total "
                    + "FROM invoices i "
@@ -266,10 +761,33 @@ private void loadSalesReport() {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnSalesReport;
     private java.awt.Button button1;
+    private javax.swing.JTextField customeraddress;
+    private javax.swing.JTextField cusumername;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable jTablesalr;
+    private javax.swing.JTable tblInvoices;
+    private javax.swing.JTable tblItems;
     private javax.swing.JTextField txtCustomerName;
+    private javax.swing.JTextField txtCustomerSearch;
+    private javax.swing.JTextField txtGrandTotal;
+    private javax.swing.JTextField txtPaymentType;
+    private javax.swing.JTextField txtdate;
+    private javax.swing.JTextField txtgtotal;
+    private javax.swing.JTextField txtinvoiceno;
+    private javax.swing.JTextField txtname;
+    private javax.swing.JTextField txtpo;
     // End of variables declaration//GEN-END:variables
 }
